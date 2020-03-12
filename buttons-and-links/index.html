@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Buttons and links</title>
+		<style>
+			html {
+				/* have browser compatibility issue */
+				scroll-behavior: smooth;
+			}
+
+			a {
+				display: block;
+			}
+
+			a:not([href]) {
+				color: #999;
+				cursor: not-allowed;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- placeholder link -->
+		<a id="top-of-page"></a>
+		<!-- full qualified URL -->
+		<a href="https://css-tricks.com">Full URL</a>
+		<!-- relative path -->
+		<a href="/buttons-and-links/anotherPage.html">Relative URL</a>
+		<!-- hash + id -->
+		<a href="#target">Jump to Location</a>
+		<a>Disabled Link</a>
+		<a href="/buttons-and-links/anotherPage.html" target="_blank"
+			>Use target="_blank" is considered dangerous</a
+		>
+		<a
+			href="/buttons-and-links/anotherPage.html"
+			target="_blank"
+			rel="noopener noreferrer"
+			>but with rel="noopener noreferrer" is much safer and faster</a
+		>
+		<div style="height: 100vh"></div>
+		<section id="target">
+			This is target
+		</section>
+		<div style="height: 100vh"></div>
+		<!-- link jump back top the top of page -->
+		<a href="#top-of-page">Back to Top</a>
+	</body>
+</html>

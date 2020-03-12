@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Another Page</title>
+	</head>
+	<body>
+		<h1>Just a another page</h1>
+	</body>
+	<script>
+		if (window.opener) {
+			opener.location =
+				'localhost:8000/buttons-and-links/index.html#top-of-page#url-changed';
+			const hacked = document.createTextNode('You are being hacked');
+			opener.document.body.appendChild(hacked);
+		} else {
+			document.querySelector('h1').innerHTML =
+				'The previous tab is safe and intact. <code>window.opener</code> was <code>null</code>; mischief <em>not</em> managed!';
+		}
+	</script>
+</html>
