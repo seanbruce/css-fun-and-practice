@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Expand-collapse-animation</title>
+		<style>
+			html {
+				box-sizing: inherit;
+			}
+
+			body {
+				background-color: #555;
+				box-sizing: border-box;
+			}
+			.box {
+				width: 100px;
+				height: 100px;
+				margin-bottom: 24px;
+				background-color: saddlebrown;
+				color: #fff;
+				text-align: center;
+				vertical-align: middle;
+				line-height: 100px;
+				user-select: none;
+				transition: transform 200ms linear;
+				transform-origin: left top;
+			}
+
+			.box.expand {
+				transform: scale(1.2);
+			}
+
+			.menu-container {
+				position: relative;
+				background-color: #fff;
+				width: 100px;
+				overflow: hidden;
+				border-radius: 4px;
+				transform-origin: left top;
+				will-change: transform;
+			}
+
+			.menu-container.expanded {
+				animation-name: menuAnimation;
+				animation-duration: 0.2s;
+				animation-timing-function: linear;
+			}
+
+			.menu-content.expanded {
+				animation-name: menuContentsAnimation;
+				animation-duration: 0.2s;
+				animation-timing-function: linear;
+			}
+
+			.menu-toggle {
+				background-color: #fff;
+				border: none;
+				padding: 0;
+			}
+
+			.menu-toggle:focus {
+				outline: none;
+			}
+
+			.menu-toggle h1 {
+				margin: 0;
+				font-size: 1.1rem;
+				padding: 8px;
+			}
+
+			.menu-item {
+				padding: 8px;
+				border-bottom: solid 1px #ddd;
+				cursor: pointer;
+			}
+
+			.menu-title {
+				width: 55px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box" id="simple-scale-box">
+			scale()
+		</div>
+		<div class="menu-container expanded">
+			<div class="menu-content expanded">
+				<button class="menu-toggle">
+					<h1 class="menuTitle">Menu</h1>
+				</button>
+				<div class="menu-item">Menu item 1</div>
+				<div class="menu-item">Menu item 1</div>
+				<div class="menu-item">Menu item 1</div>
+				<div class="menu-item">Menu item 1</div>
+			</div>
+		</div>
+		<script>
+			const simpleScaleBox = document.querySelector('#simple-scale-box');
+			simpleScaleBox.addEventListener('click', function() {
+				simpleScaleBox.classList.toggle('expand');
+			});
+
+			const menuContainer = document.querySelector('.menu-container');
+			const menuContent = document.querySelector('.menu-content');
+			const menuTitle = document.querySelector('.menuTitle');
+
+			function calculateCollapsedScale() {
+				const collapsed = menuTitle.getBoundingClientRect();
+				const expanded = menuContainer.getBoundingClientRect();
+				return {
+					x: collapsed.width / expanded.width,
+					y: collapsed.height / expanded.height
+				};
+			}
+
+			function ease(v, pow = 4) {
+				return 1 - Math.pow(1 - v, pow);
+			}
+
+			function createKeyframeAnimation() {
+				let { x, y } = calculateCollapsedScale();
+				let animation = '';
+				let inverseAnimation = '';
+
+				for (let step = 0; step <= 100; step++) {
+					let easedStep = ease(step / 100);
+
+					const xScale = x + (1 - x) * easedStep;
+					const yScale = y + (1 - y) * easedStep;
+
+					animation += `${step}% {
+						transform: scale(${xScale}, ${yScale});
+					`;
+
+					const invXScale = 1 / xScale;
+					const invYScale = 1 / yScale;
+					inverseAnimation += `${step}% {
+						transform: scale(${invXScale}, ${invYScale});
+					`;
+
+					const keyframes = `
+					@keyframes menuAnimation {
+						${animation}
+					}
+
+					@keyframes menuContentsAnimation {
+						${inverseAnimation}
+					}
+					`;
+
+					const style = document.createElement('style');
+					style.textContent = keyframes;
+					document.head.appendChild(style);
+				}
+			}
+
+			createKeyframeAnimation();
+
+			menuTitle.addEventListener('click', function() {
+				menuContainer.classList.toggle('expanded');
+				menuContent.classList.toggle('expanded');
+			});
+		</script>
+	</body>
+</html>
