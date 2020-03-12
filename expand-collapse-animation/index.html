@@ -138,8 +138,8 @@
 					inverseAnimation += `${step}% {
 						transform: scale(${invXScale}, ${invYScale});
 					`;
-
-					const keyframes = `
+				}
+				const keyframes = `
 					@keyframes menuAnimation {
 						${animation}
 					}
@@ -149,10 +149,9 @@
 					}
 					`;
 
-					const style = document.createElement('style');
-					style.textContent = keyframes;
-					document.head.appendChild(style);
-				}
+				const style = document.createElement('style');
+				style.textContent = keyframes;
+				document.head.appendChild(style);
 			}
 
 			createKeyframeAnimation();
