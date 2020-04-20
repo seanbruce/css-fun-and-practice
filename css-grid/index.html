@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>CSS Grid</title>
+		<style>
+			*,
+			*::before,
+			*::after {
+				margin: 0;
+				padding: 0;
+				box-sizing: inherit;
+			}
+
+			html {
+				height: 100%;
+				box-sizing: border-box;
+			}
+
+			body {
+				height: 100%;
+			}
+
+			.grid-container {
+				padding: 8px;
+				display: grid;
+				grid-gap: 16px;
+				gap: 16px;
+
+				grid-template-rows: 120px auto;
+				grid-template-columns: repeat(4, 1fr);
+				grid-template-areas:
+					'statistic-1 statistic-2 statistic-3 statistic-4'
+					'chart chart chart right-chart';
+			}
+
+			@media screen and (max-width: 1280px) {
+				.grid-container {
+					grid-template-rows: 120px auto auto;
+					grid-template-areas:
+						'statistic-1 statistic-2 statistic-3 statistic-4'
+						'chart chart chart chart'
+						'right-chart right-chart right-chart right-chart';
+				}
+			}
+
+			.statics-1 {
+				grid-area: statistic-1;
+				/* height: 120px; */
+				background-color: lightcoral;
+			}
+			.statics-2 {
+				grid-area: statistic-2;
+				/* height: 120px; */
+				background-color: lightcoral;
+			}
+			.statics-3 {
+				grid-area: statistic-3;
+				/* height: 120px; */
+				background-color: lightcoral;
+			}
+			.statics-4 {
+				grid-area: statistic-4;
+				/* height: 120px; */
+				background-color: lightcoral;
+			}
+			.chart {
+				grid-area: chart;
+				background-color: lightslategrey;
+			}
+
+			@media screen and (max-width: 1280px) {
+				.chart {
+					min-height: 300px;
+				}
+			}
+
+			.right-chart {
+				grid-area: right-chart;
+			}
+			.right-chart-container {
+				width: 100%;
+				display: grid;
+				grid-gap: 16px;
+				gap: 16px;
+			}
+
+			@media screen and (max-width: 1280px) {
+				.right-chart-container {
+					grid-template-columns: repeat(2, 1fr);
+				}
+			}
+			.upperChart {
+				padding-bottom: 100%;
+				background-color: lightsalmon;
+			}
+
+			.lowerChart {
+				padding-bottom: 100%;
+				background-color: lightseagreen;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="grid-container">
+			<div class="statics-1">1</div>
+			<div class="statics-2">2</div>
+			<div class="statics-3">3</div>
+			<div class="statics-4">4</div>
+			<div class="chart"></div>
+			<div class="right-chart">
+				<div class="right-chart-container">
+					<div class="upperChart"></div>
+					<div class="lowerChart"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
