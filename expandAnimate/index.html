@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>expand animation</title>
+		<style>
+			*,
+			*::before,
+			*::after {
+				box-sizing: border-box;
+				padding: 0;
+				margin: 0;
+			}
+			ul {
+				list-style: none;
+				border: solid 1px #999;
+				margin: 0;
+				width: 55px;
+				overflow: hidden;
+				transition: height 60ms linear, opacity 60ms linear;
+			}
+
+			li {
+				padding: 4px;
+			}
+
+			li:not(:last-child) {
+				border-bottom: solid 1px #aaa;
+			}
+		</style>
+	</head>
+	<body>
+		<button type="button">toggle expand</button>
+		<ul>
+			<li>item1</li>
+			<li>item2</li>
+			<li>item3</li>
+			<li>item4</li>
+			<li>item5</li>
+		</ul>
+		<script>
+			let expanded = true;
+			const button = document.querySelector('button');
+			const list = document.querySelector('ul');
+			function handleToggle() {
+				console.log({ expanded, button, list });
+				if (expanded) {
+					const { height } = list.getBoundingClientRect();
+					list.style.height = `${height}px`;
+					requestAnimationFrame(() => {
+						list.style.height = '0px';
+						list.style.opacity = '0';
+						expanded = false;
+						list.addEventListener(
+							'transitionend',
+							() => {
+								console.log('transitionend');
+								list.style.display = 'none';
+							},
+							{
+								once: true,
+							}
+						);
+					});
+				} else {
+					list.style.display = 'block';
+					list.style.height = 'auto';
+					requestAnimationFrame(() => {
+						const { height } = list.getBoundingClientRect();
+						list.style.height = '0px';
+						requestAnimationFrame(() => {
+							expanded = true;
+							list.style.height = `${height}px`;
+							list.style.opacity = '1';
+							list.addEventListener(
+								'transitionend',
+								() => {
+									console.log('transitionend');
+									list.style.removeProperty('display');
+									list.style.removeProperty('height');
+									list.style.removeProperty('opacity');
+								},
+								{
+									once: true,
+								}
+							);
+						});
+					});
+				}
+			}
+			button.addEventListener('click', handleToggle);
+		</script>
+	</body>
+</html>
