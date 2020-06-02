@@ -18,7 +18,7 @@
 				margin: 0;
 				width: 55px;
 				overflow: hidden;
-				transition: height 60ms linear, opacity 60ms linear;
+				transition: height 200ms linear, opacity 200ms linear;
 			}
 
 			li {
@@ -55,7 +55,7 @@
 						list.addEventListener(
 							'transitionend',
 							() => {
-								console.log('transitionend');
+								console.log('collapse transitionend');
 								list.style.display = 'none';
 							},
 							{
@@ -76,7 +76,7 @@
 							list.addEventListener(
 								'transitionend',
 								() => {
-									console.log('transitionend');
+									console.log('expanded transitionend');
 									list.style.removeProperty('display');
 									list.style.removeProperty('height');
 									list.style.removeProperty('opacity');
